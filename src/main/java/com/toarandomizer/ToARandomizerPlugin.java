@@ -24,8 +24,6 @@ public class ToARandomizerPlugin extends Plugin {
 	private Client client;
 	@Inject
 	private ClientToolbar clientToolbar;
-	@Inject
-	private ToARandomizerConfig config;
 	
 	private NavigationButton navButton;
 	private ToAPluginPanel panel;
@@ -58,11 +56,5 @@ public class ToARandomizerPlugin extends Plugin {
 	public void onGameStateChanged(GameStateChanged gameStateChanged) {
 
 	}
-	
-	@Provides
-	ToARandomizerConfig provideConfig(ConfigManager configManager) {
-		return configManager.getConfig(ToARandomizerConfig.class);
-	}
-	
-	
+
 }

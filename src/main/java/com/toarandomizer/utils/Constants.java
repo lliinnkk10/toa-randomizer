@@ -9,4 +9,5 @@ public class Constants {
 	public static final int DEFAULT_PRIORITY = 5;
 	public static final String USER_AGENT = RuneLite.USER_AGENT + " (invocation-randomizer)";
 	
+
 }

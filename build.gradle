@@ -26,10 +26,10 @@ dependencies {
 }
 
 group = 'com.toarandomizer'
-version = '1.0-SNAPSHOT'
-sourceCompatibility = "14"
+version = '0.9'
+sourceCompatibility = "17"
 
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
-targetCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_17

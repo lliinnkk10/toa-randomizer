@@ -25,16 +25,6 @@ import static com.toarandomizer.utils.Invocations.Zebak.*;
 
 public class DisplayPanel extends JPanel {
 	
-	@Inject
-	private OverlayManager overlayManager;
-	@Inject
-	private Client client;
-	
-	/**
-	 * Miscellaneous
-	 */
-	private final Font font = new Font("Arial", Font.BOLD, 15);
-	
 	/**
 	 * Overlay
 	 */
@@ -113,6 +103,8 @@ public class DisplayPanel extends JPanel {
 	public DisplayPanel() {
 		super();
 		
+		Font font = new Font("Arial", Font.BOLD, 15);
+		
 		setLayout(new MigLayout( "", "", "5[]5[]10[]10[]5[]15[]10[]20" ));
 		setBorder(new EmptyBorder(1, 1, 1, 1));
 		
@@ -188,6 +180,7 @@ public class DisplayPanel extends JPanel {
 		// Invocation panels properties
 		jspInvocations.setPreferredSize(new Dimension( 218, 450 ));
 		jspInvocations.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		jspInvocations.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		jspInvocations.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED,
 				new Color(255, 127, 0),
 				new Color(197, 255, 81)));
@@ -228,19 +221,6 @@ public class DisplayPanel extends JPanel {
 		
 		add(jbReset, "align center, wrap");
 		
-	}
-	
-	private void displayInvocation() {
-		Widget parent = client.getWidget(WIDGET_ID_INVOCATIONS_PARENT, WIDGET_ID_INVOCATIONS_CHILD);
-		if (parent == null || parent.isHidden() || parent.getChildren() == null) {
-			return;
-		}
-		for (Invocations invoc : Invocations.values()) {
-			Widget invocW = parent.getChild(invoc.getWidgetIx());
-			invocW.setFilled(false);
-			invocW.setTextColor(Color.green.getRGB());
-			invocW.setOpacity(0);
-		}
 	}
 	
 	private Invocations randomizeInvocation() {
@@ -312,18 +292,18 @@ public class DisplayPanel extends JPanel {
 				blockedList.add("Sprint for it");
 			}
 			case "Jog for it" -> {
-				timeList.remove(WALK);
+				timeList.remove(WALK_FOR_IT);
 				blockedList.add("Jog for it");
 				blockedList.add("Run for it");
 				blockedList.add("Sprint for it");
 			}
 			case "Run for it" -> {
-				timeList.remove(JOG);
+				timeList.remove(JOG_FOR_IT);
 				blockedList.add("Run for it");
 				blockedList.add("Sprint for it");
 			}
 			case "Sprint for it" -> {
-				timeList.remove(RUN);
+				timeList.remove(RUN_FOR_IT);
 				blockedList.add("Sprint for it");
 			}
 			// Help
@@ -333,12 +313,12 @@ public class DisplayPanel extends JPanel {
 				blockedList.add("No Help Needed");
 			}
 			case "Need Less Help?" -> {
-				helpList.remove(SOME);
+				helpList.remove(NEED_SOME_HELP);
 				blockedList.add("Need Less Help?");
 				blockedList.add("No Help Needed");
 			}
 			case "No Help Needed" -> {
-				helpList.remove(LESS);
+				helpList.remove(NEED_LESS_HELP);
 				blockedList.add("No Help Needed");
 			}
 			// Path level
@@ -348,12 +328,12 @@ public class DisplayPanel extends JPanel {
 				blockedList.add("Pathmaster");
 			}
 			case "Pathfinder" -> {
-				pathList.remove(SEEKER);
+				pathList.remove(PATH_SEEKER);
 				blockedList.add("Pathfinder");
 				blockedList.add("Pathmaster");
 			}
 			case "Pathmaster" -> {
-				pathList.remove(FINDER);
+				pathList.remove(PATH_FINDER);
 				blockedList.add("Pathmaster");
 			}
 			// Overclocked
@@ -428,27 +408,27 @@ public class DisplayPanel extends JPanel {
 					switch (timeList.size()) {
 						case 0 -> {
 							addInvocationPanel(invocation);
-							timeList.add(WALK);
-							setLastTime(WALK);
+							timeList.add(WALK_FOR_IT);
+							setLastTime(WALK_FOR_IT);
 							return invocation;
 						}
 						case 1 -> {
 							addInvocationPanel(invocation);
-							timeList.add(JOG);
-							setLastTime(JOG);
+							timeList.add(JOG_FOR_IT);
+							setLastTime(JOG_FOR_IT);
 							return invocation;
 						}
 						case 2 -> {
 							addInvocationPanel(invocation);
-							timeList.add(RUN);
-							setLastTime(RUN);
+							timeList.add(RUN_FOR_IT);
+							setLastTime(RUN_FOR_IT);
 							return invocation;
 						}
 						case 3 -> {
 							addInvocationPanel(invocation);
 							invocationsList.add(TIME);
-							timeList.add(SPRINT);
-							setLastTime(SPRINT);
+							timeList.add(SPRINT_FOR_IT);
+							setLastTime(SPRINT_FOR_IT);
 							return invocation;
 						}
 						default -> randomizeInvocation();
@@ -458,21 +438,21 @@ public class DisplayPanel extends JPanel {
 					switch (helpList.size()) {
 						case 0 -> {
 							addInvocationPanel(invocation);
-							helpList.add(SOME);
-							setLastHelp(SOME);
+							helpList.add(NEED_SOME_HELP);
+							setLastHelp(NEED_SOME_HELP);
 							return invocation;
 						}
 						case 1 -> {
 							addInvocationPanel(invocation);
-							helpList.add(LESS);
-							setLastHelp(LESS);
+							helpList.add(NEED_LESS_HELP);
+							setLastHelp(NEED_LESS_HELP);
 							return invocation;
 						}
 						case 2 -> {
 							addInvocationPanel(invocation);
 							invocationsList.add(HELP);
-							helpList.add(NONE);
-							setLastHelp(NONE);
+							helpList.add(NO_HELP_NEEDED);
+							setLastHelp(NO_HELP_NEEDED);
 							return invocation;
 						}
 						default -> randomizeInvocation();
@@ -482,21 +462,21 @@ public class DisplayPanel extends JPanel {
 					switch (pathList.size()) {
 						case 0 -> {
 							addInvocationPanel(invocation);
-							pathList.add(SEEKER);
-							setLastPath(SEEKER);
+							pathList.add(PATH_SEEKER);
+							setLastPath(PATH_SEEKER);
 							return invocation;
 						}
 						case 1 -> {
 							addInvocationPanel(invocation);
-							pathList.add(FINDER);
-							setLastPath(FINDER);
+							pathList.add(PATH_FINDER);
+							setLastPath(PATH_FINDER);
 							return invocation;
 						}
 						case 2 -> {
 							addInvocationPanel(invocation);
 							invocationsList.add(PATH_LEVEL);
-							pathList.add(MASTER);
-							setLastPath(MASTER);
+							pathList.add(PATH_MASTER);
+							setLastPath(PATH_MASTER);
 							return invocation;
 						}
 						default -> randomizeInvocation();
@@ -565,9 +545,7 @@ public class DisplayPanel extends JPanel {
 	
 	private void addInvocationPanel(Invocations invocation) {
 		InvocationPanel panel = createInvocationPanel(invocation);
-		System.out.println(panel.text);
 		if (blockedList.contains(panel.text)) {
-			System.out.println("Blocked panel: " + panel.text);
 			randomizeInvocation();
 			return;
 		}
@@ -870,24 +848,24 @@ public class DisplayPanel extends JPanel {
 			}
 			case TIME -> {
 				switch (timeList.size()) {
-					case 1 -> raidLevel += WALK.getRaidLevel();
-					case 2 -> raidLevel += JOG.getRaidLevel();
-					case 3 -> raidLevel += RUN.getRaidLevel();
-					case 4 -> raidLevel += SPRINT.getRaidLevel();
+					case 1 -> raidLevel += WALK_FOR_IT.getRaidLevel();
+					case 2 -> raidLevel += JOG_FOR_IT.getRaidLevel();
+					case 3 -> raidLevel += RUN_FOR_IT.getRaidLevel();
+					case 4 -> raidLevel += SPRINT_FOR_IT.getRaidLevel();
 				}
 			}
 			case HELP -> {
 				switch (helpList.size()) {
-					case 1 -> raidLevel += SOME.getRaidLevel();
-					case 2 -> raidLevel += LESS.getRaidLevel();
-					case 3 -> raidLevel += NONE.getRaidLevel();
+					case 1 -> raidLevel += NEED_SOME_HELP.getRaidLevel();
+					case 2 -> raidLevel += NEED_LESS_HELP.getRaidLevel();
+					case 3 -> raidLevel += NO_HELP_NEEDED.getRaidLevel();
 				}
 			}
 			case PATH_LEVEL -> {
 				switch (pathList.size()) {
-					case 1 -> raidLevel += SEEKER.getRaidLevel();
-					case 2 -> raidLevel += FINDER.getRaidLevel();
-					case 3 -> raidLevel += MASTER.getRaidLevel();
+					case 1 -> raidLevel += PATH_SEEKER.getRaidLevel();
+					case 2 -> raidLevel += PATH_FINDER.getRaidLevel();
+					case 3 -> raidLevel += PATH_MASTER.getRaidLevel();
 				}
 			}
 			case OVERCLOCKED -> {
@@ -919,14 +897,14 @@ public class DisplayPanel extends JPanel {
 			case "Softcore" -> SOFTCORE.getRaidLevel();
 			case "Hardcore" -> HARDCORE.getRaidLevel();
 			// Time
-			case "Walk for it" -> WALK.getRaidLevel();
-			case "Jog for it" -> JOG.getRaidLevel();
-			case "Run for it" -> RUN.getRaidLevel();
-			case "Sprint for it" -> SPRINT.getRaidLevel();
+			case "Walk for it" -> WALK_FOR_IT.getRaidLevel();
+			case "Jog for it" -> JOG_FOR_IT.getRaidLevel();
+			case "Run for it" -> RUN_FOR_IT.getRaidLevel();
+			case "Sprint for it" -> SPRINT_FOR_IT.getRaidLevel();
 			// Help
-			case "Need Some Help?" -> SOME.getRaidLevel();
-			case "Need Less Help?" -> LESS.getRaidLevel();
-			case "No Help Needed" -> NONE.getRaidLevel();
+			case "Need Some Help?" -> NEED_SOME_HELP.getRaidLevel();
+			case "Need Less Help?" -> NEED_LESS_HELP.getRaidLevel();
+			case "No Help Needed" -> NO_HELP_NEEDED.getRaidLevel();
 			// Restoration
 			case "Quiet Prayers" -> QUIET_PRAYER.getRaidLevel();
 			case "Deadly Prayers" -> DEADLY_PRAYER.getRaidLevel();
@@ -934,9 +912,9 @@ public class DisplayPanel extends JPanel {
 			case "Dehydration" -> DEHYDRATION.getRaidLevel();
 			case "Overly Draining" -> OVERLY_DRAINING.getRaidLevel();
 			// Path level
-			case "Pathseeker" -> SEEKER.getRaidLevel();
-			case "Pathfinder" -> FINDER.getRaidLevel();
-			case "Pathmaster" -> MASTER.getRaidLevel();
+			case "Pathseeker" -> PATH_SEEKER.getRaidLevel();
+			case "Pathfinder" -> PATH_FINDER.getRaidLevel();
+			case "Pathmaster" -> PATH_MASTER.getRaidLevel();
 			case "Walk the Path" -> WALK_THE_PATH.getRaidLevel();
 			// Overclocked
 			case "Ancient Haste" -> ANCIENT_HASTE.getRaidLevel();
@@ -979,7 +957,6 @@ public class DisplayPanel extends JPanel {
 			
 			raidLevel = addRaidLevel(invoc);
 			
-			System.out.println("Total: " + raidLevel + " adding:  " + invoc.getRaidLevel( ));
 			if (raidLevel > goal) {
 				reset( );
 				raidLevel = 0;
