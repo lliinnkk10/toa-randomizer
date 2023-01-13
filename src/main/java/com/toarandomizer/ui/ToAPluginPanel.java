@@ -1,15 +1,17 @@
 package com.toarandomizer.ui;
 
+import com.toarandomizer.ToARandomizerConfig;
 import net.runelite.client.ui.PluginPanel;
 
 import java.awt.*;
 
 public class ToAPluginPanel extends PluginPanel {
 	
-	private final DisplayPanel displayPanel = new DisplayPanel();
+	public DisplayPanel displayPanel;
 	
-	public ToAPluginPanel() {
+	public ToAPluginPanel(ToARandomizerConfig config) {
 		super();
+		displayPanel = new DisplayPanel(config);
 		
 		RandomizerPanel randomizerPanel = new RandomizerPanel(this);
 		
@@ -19,7 +21,6 @@ public class ToAPluginPanel extends PluginPanel {
 		add(randomizerPanel, BorderLayout.CENTER);
 		
 	}
-
 	
 	
 }

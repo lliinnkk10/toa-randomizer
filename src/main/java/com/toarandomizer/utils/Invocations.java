@@ -5,15 +5,24 @@ import lombok.*;
 @RequiredArgsConstructor
 public enum Invocations {
 	
-	ATTEMPTS(0, "Attempts"),
+	TRY_AGAIN(5, "Try Again"),
+	PERSISTENCE(5, "Persistence"),
+	SOFTCORE(5, "Softcore"),
+	HARDCORE(10, "Hardcore"),
 	
-	TIME(0, "Time"),
+	WALK_FOR_IT(10, "Walk For It"),
+	JOG_FOR_IT(5, "Jog For It"),
+	RUN_FOR_IT(5, "Run For It"),
+	SPRINT_FOR_IT(5, "Sprint For It"),
 	
-	HELP(0, "Help"),
-	
+	NEED_SOME_HELP(15, "Need Some Help?"),
+	NEED_LESS_HELP(10, "Need Less Help?"),
+	NO_HELP_NEEDED(15, "No Help Needed"),
 	// Path
 	WALK_THE_PATH(50, "Walk The Path"),
-	PATH_LEVEL(0, "Path Level"),
+	PATH_SEEKER(15, "Pathseeker"),
+	PATH_FINDER(25, "Pathfinder"),
+	PATH_MASTER(10, "Pathmaster"),
 	
 	// Prayers
 	QUIET_PRAYER(20, "Quiet Prayers"),
@@ -32,8 +41,10 @@ public enum Invocations {
 	AERIAL_ASSAULT(10, "Aerial Assault"),
 	
 	// Zebak
+	NOT_JUST_A_HEAD(15, "Not Just A Head"),
+	ARTERIAL_SPRAY(10, "Arterial Spray"),
+	BLOOD_THINNERS(5, "Blood Thinners"),
 	UPSET_STOMACH(15, "Upset Stomach"),
-	ZEBAK(0, "Zebak"),
 	
 	// Akkha
 	DOUBLE_TROUBLE(20, "Double Trouble"),
@@ -52,7 +63,20 @@ public enum Invocations {
 	ANCIENT_HASTE(10, "Ancient Haste"),
 	ACCELERATION(10, "Acceleration"),
 	PENETRATION(10, "Penetration"),
-	OVERCLOCKED(0, "Overclock");
+	OVERCLOCKED_ONE(10, "Overclocked"),
+	OVERCLOCKED_TWO(10, "Overclocked Two"),
+	INSANITY(50, "Insanity"),
+	
+	ZEBAK(0, "Zebak"),
+	PATH_LEVEL(0, "Path Level"),
+	
+	OVERCLOCKED(0, "Overclock"),
+	
+	ATTEMPTS(0, "Attempts"),
+	
+	TIME(0, "Time"),
+	
+	HELP(0, "Help");
 	
 	@Getter
 	private final int raidLevel;
@@ -118,7 +142,7 @@ public enum Invocations {
 	public enum Help {
 		NEED_SOME_HELP(15, "Need Some Help?"),
 		NEED_LESS_HELP(10, "Need Less Help?"),
-		NO_HELP_NEEDED(15, "No Help Needed");
+		NO_HELP_NEEDED(25, "No Help Needed");
 		
 		@Getter
 		private final int raidLevel;
